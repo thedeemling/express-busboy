@@ -134,7 +134,8 @@ exports.extend = function(app, options) {
                 const fileUuid = uuid.v4();
                 const nameStripped = options.strip(name, 'name');
                 const filenameStripped = options.strip(filename || /*istanbul ignore next*/ '', 'filename');
-                const out = path.join(options.path, '/', fileUuid, '/', nameStripped, filenameStripped);
+                const usedName = nameStripped || filenameStripped;
+                const out = path.join(options.path, '/', fileUuid, '/', usedName);
 
                 if (
                     mimeTypeLimit &&
@@ -146,7 +147,7 @@ exports.extend = function(app, options) {
                 }
 
                 /*istanbul ignore next*/
-                if (!filename || filenameStripped === '') {
+                if (!filename || usedName === '') {
                     return file.on('data', () => {});
                 }
 
